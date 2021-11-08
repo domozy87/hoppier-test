@@ -5,6 +5,12 @@ Currency Conversion - React + State Management
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Installation
+```
+$ cd hoppier-test
+$ yarn install
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
