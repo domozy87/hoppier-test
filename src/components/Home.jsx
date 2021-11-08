@@ -2,16 +2,22 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 // Components
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import NumberFormat from "react-number-format";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
+import {
+  Box,
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  OutlinedInput,
+  InputAdornment,
+  FormControl,
+  InputLabel
+} from "@mui/material";
 
 // Controls
 import DropDown from "./Fields/DropDown";
@@ -21,7 +27,7 @@ import { Currencies } from "../types/Currency";
 
 // Constants
 import { HEADER_COLUMNS } from "../constants/header_columns";
-import { RATE } from "../constants/currency_rate";
+import { RATE, USD_RATE, CAD_RATE } from "../constants/currency_rate";
 
 // Helpers
 import {
@@ -34,6 +40,9 @@ import {
 import Transactions from "../mocks/transactions";
 import Users from "../mocks/users";
 
+// Images
+import ArrowImg from "../images/convert-arrow.png";
+
 const StyleContainer = styled(Container)`
   max-width: var(--maxWidth);
   margin: 0 auto;
@@ -42,6 +51,17 @@ const StyleContainer = styled(Container)`
 
 const StyleBox = styled(Box)`
   padding: 20px;
+`;
+
+const ConversionWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StyleImg = styled.img`
+  max-width: 40px;
 `;
 
 const StyleAmount = styled(Typography)`
@@ -67,6 +87,8 @@ const UserSummary = styled.div`
 const Home = () => {
   // States
   const [currency, setCurrency] = useState("USD");
+  const [cadAmount, setCadAmount] = useState(0.0);
+  const [usdAmount, setUsdAmount] = useState(0.0);
 
   const calculateCurrencyConverstion = amount => {
     if (currency === "CAD") {
@@ -76,8 +98,58 @@ const Home = () => {
     }
   };
 
+  const convertCurrencyAmount = (type, amount) => {
+    let convert_amount = 0.0;
+
+    if (type === "USD") {
+      convert_amount = parseFloat(amount * USD_RATE).toFixed(2);
+      setCadAmount(convert_amount);
+      setUsdAmount(amount);
+    } else if (type === "CAD") {
+      convert_amount = parseFloat(amount * CAD_RATE).toFixed(2);
+      setUsdAmount(convert_amount);
+      setCadAmount(amount);
+    }
+  };
+
   return (
     <StyleContainer>
+      <StyleBox>
+        <h1>
+          <div>Currency Conversion</div>
+        </h1>
+        <ConversionWrap>
+          <FormControl fullWidth sx={{ m: 1 }}>
+            <InputLabel htmlFor="cad-amount">CAD Amount</InputLabel>
+            <OutlinedInput
+              id="cad-amount"
+              name="cad-amount"
+              type="number"
+              value={cadAmount}
+              onChange={e => convertCurrencyAmount("CAD", e.target.value)}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              label="CAD Amount"
+            />
+          </FormControl>
+          <StyleImg src={ArrowImg} />
+          <FormControl fullWidth sx={{ m: 1 }}>
+            <InputLabel htmlFor="usd-amount">USD Amount</InputLabel>
+            <OutlinedInput
+              id="usd-amount"
+              name="usd-amount"
+              type="number"
+              value={usdAmount}
+              onChange={e => convertCurrencyAmount("USD", e.target.value)}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              label="USD Amount"
+            />
+          </FormControl>
+        </ConversionWrap>
+      </StyleBox>
       <StyleBox>
         <DropDown
           label="Currency"
