@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 // Components
-import NumberFormat from "react-number-format";
+import NumberFormat from 'react-number-format';
 import {
   Box,
   Container,
@@ -17,31 +17,31 @@ import {
   InputAdornment,
   FormControl,
   InputLabel
-} from "@mui/material";
+} from '@mui/material';
 
 // Controls
-import DropDown from "./Fields/DropDown";
+import DropDown from './Fields/DropDown';
 
 // Types
-import { Currencies } from "../types/Currency";
+import { Currencies } from '../types/Currency';
 
 // Constants
-import { HEADER_COLUMNS } from "../constants/header_columns";
-import { RATE, USD_RATE, CAD_RATE } from "../constants/currency_rate";
+import { HEADER_COLUMNS } from '../constants/header_columns';
+import { RATE, USD_RATE, CAD_RATE } from '../constants/currency_rate';
 
 // Helpers
 import {
   getUserByCardId,
   getMerchantById,
   getLastTransactionByCardId
-} from "../helpers";
+} from '../helpers';
 
 // Mocks
-import Transactions from "../mocks/transactions";
-import Users from "../mocks/users";
+import Transactions from '../mocks/transactions';
+import Users from '../mocks/users';
 
 // Images
-import ArrowImg from "../images/convert-arrow.png";
+import ArrowImg from '../images/convert-arrow.png';
 
 const StyleContainer = styled(Container)`
   max-width: var(--maxWidth);
@@ -86,12 +86,12 @@ const UserSummary = styled.div`
 
 const Home = () => {
   // States
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState('USD');
   const [cadAmount, setCadAmount] = useState(0.0);
   const [usdAmount, setUsdAmount] = useState(0.0);
 
   const calculateCurrencyConverstion = amount => {
-    if (currency === "CAD") {
+    if (currency === 'CAD') {
       return parseFloat(amount * RATE).toFixed(2);
     } else {
       return parseFloat(amount).toFixed(2);
@@ -101,11 +101,11 @@ const Home = () => {
   const convertCurrencyAmount = (type, amount) => {
     let convert_amount = 0.0;
 
-    if (type === "USD") {
+    if (type === 'USD') {
       convert_amount = parseFloat(amount * USD_RATE).toFixed(2);
       setCadAmount(convert_amount);
       setUsdAmount(amount);
-    } else if (type === "CAD") {
+    } else if (type === 'CAD') {
       convert_amount = parseFloat(amount * CAD_RATE).toFixed(2);
       setUsdAmount(convert_amount);
       setCadAmount(amount);
@@ -126,7 +126,7 @@ const Home = () => {
               name="cad-amount"
               type="number"
               value={cadAmount}
-              onChange={e => convertCurrencyAmount("CAD", e.target.value)}
+              onChange={e => convertCurrencyAmount('CAD', e.target.value)}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -141,7 +141,7 @@ const Home = () => {
               name="usd-amount"
               type="number"
               value={usdAmount}
-              onChange={e => convertCurrencyAmount("USD", e.target.value)}
+              onChange={e => convertCurrencyAmount('USD', e.target.value)}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -175,9 +175,9 @@ const Home = () => {
                   <StyleAmount variant="h6" gutterBottom component="div">
                     <NumberFormat
                       value={calculateCurrencyConverstion(trans.usd_amount)}
-                      displayType={"text"}
+                      displayType={'text'}
                       thousandSeparator={true}
-                      prefix={"$"}
+                      prefix={'$'}
                     />
                     <span>{currency}</span>
                   </StyleAmount>
@@ -233,9 +233,9 @@ const Home = () => {
                     <TableCell align="right">
                       <NumberFormat
                         value={data.amount}
-                        displayType={"text"}
+                        displayType={'text'}
                         thousandSeparator={true}
-                        prefix={"$"}
+                        prefix={'$'}
                       />
                       <span>{currency}</span>
                     </TableCell>

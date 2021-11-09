@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import { Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 
 const DropDown = props => {
   const { label, labelId, name, value, options, onChange } = props;
@@ -16,8 +16,10 @@ const DropDown = props => {
         label={label}
         onChange={onChange}
       >
-        {options.map((item) => (
-            <MenuItem key={item} value={item}>{item}</MenuItem>
+        {options.map(item => (
+          <MenuItem key={item} value={item}>
+            {item}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>
